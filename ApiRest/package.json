@@ -4,7 +4,8 @@
   "description": "proyecto final del curso de bases de datos, Universidad del valle",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -17,9 +18,12 @@
   },
   "homepage": "https://github.com/CamiloSanchez0312/DB#readme",
   "dependencies": {
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "morgan": "1.9.1",
+    "pg": "7.8.2"
   },
   "devDependencies": {
-    "nodedev": "0.0.1"
+    "body-parser": "1.18.3",
+    "nodemon": "1.18.10"
   }
 }

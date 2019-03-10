@@ -26,8 +26,9 @@ CREATE TABLE Conductor(
   nombre varchar(30) not null,
   estado boolean,
   calificacion_conductor float,
-  num_tarjetacredito int,
+  num_tarjetacredito int not null,
   matricula varchar(6),
+  password varchar(20),
   PRIMARY KEY (numero_celular),
   FOREIGN KEY (matricula) REFERENCES Vehiculo (matricula)
 );
@@ -37,7 +38,8 @@ CREATE TABLE Usuario(
   numero_celular int,
   nombre varchar(30) not null,
   direccion varchar(30),
-  num_tarjetacredito int,
+  num_tarjetacredito int not null,
+  password varchar(20),
   PRIMARY KEY (numero_celular)
 );
 SELECT addgeometrycolumn('usuario','coordenadas',3115,'POINT',2);
@@ -67,9 +69,9 @@ INSERT INTO Vehiculo VALUES ('FGE289','Chevrolet','Spark GT',2017,'true',1234);
 INSERT INTO Vehiculo VALUES ('FKH123','Nissan','March',2018,'false',8759);
 INSERT INTO Vehiculo VALUES ('CFU635','Nissan','Pathfinder',2015,'true',5485);
 
-INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,matricula,coordenadas) VALUES (317872,'Camilo Sanchez','false',null,'CFU635',st_geomfromtext('POINT(3.5182 -76.5373)',3115));
-INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,matricula,coordenadas) VALUES (332157,'Santiago Rodriguez','false',null,'FGE289',st_geomfromtext('POINT(3.4197 -76.4804)',3115));
-INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,matricula,coordenadas) VALUES (316875,'Julian Salgado','false',null,'FKH123',st_geomfromtext('POINT(3.4147 -76.5623)',3115));
+INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (317872,'Camilo Sanchez','false',null,47554,'CFU635',st_geomfromtext('POINT(3.5182 -76.5373)',3115));
+INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (332157,'Santiago Rodriguez','false',null,145357,'FGE289',st_geomfromtext('POINT(3.4197 -76.4804)',3115));
+INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (316875,'Julian Salgado','false',null,357855,'FKH123',st_geomfromtext('POINT(3.4147 -76.5623)',3115));
 
 INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas) VALUES (318569,'Karol Sanchez','Cra 12',45369,st_geomfromtext('POINT(3.4357 -76.5375)',3115));
 INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas) VALUES (318754,'Jose Mosquera','Cra 25',96836,st_geomfromtext('POINT(3.4934 -76.5725)',3115));
