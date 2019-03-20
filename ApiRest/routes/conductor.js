@@ -12,7 +12,7 @@ router.get('/',(req,res)=>{
   })
 })
 //Registrar conductores
-router.get('/signup',(req,res) => {
+router.post('/signup',(req,res) => {
   const {numero_celular,nombre,direccion,num_tarjetacredito,password} = req.body
   if(numero_celular == null || nombre == null || direccion == null || num_tarjetacredito == null || password == null){
     res.status(404).json({error:"Digite todos los campos"})
@@ -27,7 +27,7 @@ router.get('/signup',(req,res) => {
             res.status(200).json({mensaje:'Conductor almacenado exitosamente'})
           })
           .catch(err => {
-            res.status(404).json(.json({error:err.detail})
+            res.status(404).json({error:err.detail})
           })
 })
 
