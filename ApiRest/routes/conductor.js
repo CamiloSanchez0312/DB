@@ -1,16 +1,13 @@
-const express = require('express')
-const router = express.Router()
+//const express = require('express')
+//const router = express.Router()
+const router = require('express-promise-router')()
 const pg = require('../db/database.js');
 
-router.get('/',(req,res)=>{
-  pg.query('select * from conductor')
-  .then(dbres => {
-    res.status(200).json(dbres.rows)
-  })
-  .catch(err => {
-    console.log(err)
-  })
+router.get('/',async (req,res)=>{
+  const driver = await pg.query('SELECT * FROM Conductor')
+  res.status(200).json(driver.rows)
 })
+
 //Registrar conductores
 router.post('/signup',(req,res) => {
   const {numero_celular,nombre,direccion,num_tarjetacredito,password} = req.body

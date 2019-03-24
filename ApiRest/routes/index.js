@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express()
-const usuario = require('./usuario.js')
-const conductor = require('./conductor.js')
+const user = require('./usuario.js')
+const driver = require('./conductor.js')
 
-app.use('/usuario',usuario)
-app.use('/conductor',conductor)
+app.use('/user',user)
+app.use('/driver',driver)
 
 module.exports = app;
