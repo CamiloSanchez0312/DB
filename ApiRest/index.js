@@ -4,13 +4,14 @@ const port = 3000
 //const bodyParser = require('body-parser')
 const morgan = require('morgan');
 const routes = require('./routes/index.js')
-
+const cors = require('cors');
 
 //settings
 app.set('port',process.env.PORT || 3000)
 
 //middlewares
 app.use(express.json())//hace lo mismo que body-parser
+app.use(cors())
 //app.use(bodyParser.json())
 //app.use(bodyParser.urlencoded({extended:false}))
 app.use(morgan('dev'))

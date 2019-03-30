@@ -1,5 +1,6 @@
-//const express = require('express')
-const router = require('express-promise-router')()
+const express = require('express')
+const router = express.Router()
+//const router = require('express-promise-router')()
 const pg = require('../db/database.js');
 const jwt = require('jsonwebtoken');
 
@@ -12,11 +13,19 @@ router.get('/',async (req,res)=>{
 //Login
 router.post('/login',async(req,res)=>{
   const {numero_celular,password} = req.body
+  console.log(req.body);
+  console.log('num '+numero_celular+' pass '+password);
   //primero validamos que los campos no sean vacios
   if(numero_celular=="" || password == ""){
     res.json({
       msg:'Hay algun campo vacio'
     })
+    return
+  }
+  console.log('isNan '+isNaN(numero_celular))
+  if(isNaN(numero_celular)){
+    res.json({msg:'Numero celular debe ser numerico'})
+    return
   }
   const query = {
     text:'SELECT numero_celular,password FROM usuario where numero_celular=$1',
@@ -30,13 +39,13 @@ router.post('/login',async(req,res)=>{
     }else{
       if(password == user.rows[0].password){
         const token = jwt.sign({ userExistent }, 'my_secret_key')
+        console.log(token);
         res.json({
-          msg:'Ingreso satisfactorio',
           token
         })
       }else{
         res.json({
-          error:'Contrasena erronea'
+          msg:'Contrasena erronea'
         })
       }
     }
@@ -52,8 +61,8 @@ router.post('/login',async(req,res)=>{
 //Registrar usuario
 router.post('/signup',async(req,res) => {
   const {numero_celular,nombre,direccion,num_tarjetacredito,password} = req.body
-  if(numero_celular == "" || nombre == "" || direccion == "" || num_tarjetacredito == null || password == ""){
-    res.status(404).json({error:"Digite todos los campos"})
+  if(numero_celular == "" || nombre == "" || direccion == "" || num_tarjetacredito == "" || password == ""){
+    res.json({error:"Digite todos los campos"})
     return
   }
   const myquery = {
@@ -69,8 +78,8 @@ router.post('/signup',async(req,res) => {
             res.status(200).json({mensaje:'Usuario almacenado exitosamente'})
           })
           .catch(err => {
-            console.log(err)
-            res.status(404).json({error:err.detail})
+            console.log(err.detail)
+            res.status(404).json({err:err.detail})
           })
 })
 
