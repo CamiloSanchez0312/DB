@@ -22,11 +22,11 @@ CREATE TABLE Vehiculo(
 );
 
 CREATE TABLE Conductor(
-  numero_celular int,
+  numero_celular bigint,
   nombre varchar(30) not null,
   estado boolean,
   calificacion_conductor float,
-  num_tarjetacredito int not null,
+  num_tarjetacredito bigint not null,
   matricula varchar(6),
   password varchar(20),
   PRIMARY KEY (numero_celular),
@@ -35,10 +35,10 @@ CREATE TABLE Conductor(
 SELECT addgeometrycolumn('conductor','coordenadas',3115,'POINT',2);
 
 CREATE TABLE Usuario(
-  numero_celular int,
+  numero_celular bigint,
   nombre varchar(30) not null,
   direccion varchar(30),
-  num_tarjetacredito int not null,
+  num_tarjetacredito bigint not null,
   password varchar(20),
   PRIMARY KEY (numero_celular)
 );
@@ -75,9 +75,9 @@ INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_ta
 insert into conductor values(315632,'Jesica Sanchez','true',null,5215,null,'jesica',null);
 
 
-INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (318569,'Karol Sanchez','Cra 12',45369,'1234');
-INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (318754,'Jose Mosquera','Cra 25',96836,'1234');
-INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (312467,'Camilo Zamudio','Calle 12',77889,'1234');
+INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,password) VALUES (318569,'Karol Sanchez','Cra 12',45369,'1234');
+INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,password) VALUES (318754,'Jose Mosquera','Cra 25',96836,'1234');
+INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,password) VALUES (312467,'Camilo Zamudio','Calle 12',77889,'1234');
 
 INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (318569,'Univalle',st_geomfromtext('POINT(3.4947 -76.5442)',3115));
 INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (318754,'Casa',st_geomfromtext('POINT(3.5381 -76.5280)',3115));
