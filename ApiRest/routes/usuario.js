@@ -61,6 +61,7 @@ router.post('/login',async(req,res)=>{
 //Registrar usuario
 router.post('/signup',async(req,res) => {
   const {numero_celular,nombre,direccion,num_tarjetacredito,password} = req.body
+  console.log(req.body);
   if(numero_celular == "" || nombre == "" || direccion == "" || num_tarjetacredito == "" || password == ""){
     res.json({msg:"Digite todos los campos"})
     return
@@ -78,7 +79,7 @@ router.post('/signup',async(req,res) => {
             res.status(200).json({msg:'Usuario almacenado exitosamente'})
           })
           .catch(err => {
-            console.log(err.detail)
+            console.log(err)
             res.status(404).json({msg:err.detail})
           })
 })
