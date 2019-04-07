@@ -42,7 +42,7 @@ CREATE TABLE Usuario(
   password varchar(20),
   PRIMARY KEY (numero_celular)
 );
-SELECT addgeometrycolumn('usuario','coordenadas',3115,'POINT',2);
+--SELECT addgeometrycolumn('usuario','coordenadas',3115,'POINT',2);
 
 CREATE TABLE Servicio(
   nro_servicio serial,
@@ -75,9 +75,9 @@ INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_ta
 insert into conductor values(315632,'Jesica Sanchez','true',null,5215,null,'jesica',null);
 
 
-INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (318569,'Karol Sanchez','Cra 12',45369,st_geomfromtext('POINT(3.4357 -76.5375)',3115),'1234');
-INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (318754,'Jose Mosquera','Cra 25',96836,st_geomfromtext('POINT(3.4934 -76.5725)',3115),'1234');
-INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (312467,'Camilo Zamudio','Calle 12',77889,st_geomfromtext('POINT(3.5498 -76.5185)',3115),'1234');
+INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (318569,'Karol Sanchez','Cra 12',45369,'1234');
+INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (318754,'Jose Mosquera','Cra 25',96836,'1234');
+INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,coordenadas,password) VALUES (312467,'Camilo Zamudio','Calle 12',77889,'1234');
 
 INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (318569,'Univalle',st_geomfromtext('POINT(3.4947 -76.5442)',3115));
 INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (318754,'Casa',st_geomfromtext('POINT(3.5381 -76.5280)',3115));

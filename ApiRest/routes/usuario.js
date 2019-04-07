@@ -62,7 +62,7 @@ router.post('/login',async(req,res)=>{
 router.post('/signup',async(req,res) => {
   const {numero_celular,nombre,direccion,num_tarjetacredito,password} = req.body
   if(numero_celular == "" || nombre == "" || direccion == "" || num_tarjetacredito == "" || password == ""){
-    res.json({error:"Digite todos los campos"})
+    res.json({msg:"Digite todos los campos"})
     return
   }
   const myquery = {
@@ -75,11 +75,11 @@ router.post('/signup',async(req,res) => {
 
   pg.query(myquery)
           .then(dbres => {
-            res.status(200).json({mensaje:'Usuario almacenado exitosamente'})
+            res.status(200).json({msg:'Usuario almacenado exitosamente'})
           })
           .catch(err => {
             console.log(err.detail)
-            res.status(404).json({err:err.detail})
+            res.status(404).json({msg:err.detail})
           })
 })
 
