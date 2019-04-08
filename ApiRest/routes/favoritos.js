@@ -18,11 +18,12 @@ router.get('/',async(req,res) =>{
 router.get('/:phone', async(req,res) => {
   const numero_celular = req.params.phone
   const query = {
-    text:'select * from favorito where numero_celular=$1',
+    text:'select num_favorito,nombre,(select ST_AsGeoJSON(coordenadas)::json) as coor from favorito where numero_celular=$1',
     values:[numero_celular]
   }
   try {
     const fav = await pg.query(query)
+    console.log(fav.rows);
     res.status(200).json(fav.rows)
   } catch (e) {
     console.log(e);
@@ -52,7 +53,7 @@ router.post('/create', async(req,res) => {
     res.sendStatus(400)
   }
 })
-//modificar un favorito ::::: falta buscar la forma de poder modificar tambien la ubicacion 
+//modificar un favorito ::::: falta buscar la forma de poder modificar tambien la ubicacion
 router.post('/update',async(req,res) => {
   const{numero_celular,nombre,lat,lon} = req.body
   if(numero_celular == "" || nombre == "" || lat == "" || lon == ""){

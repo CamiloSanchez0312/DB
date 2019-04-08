@@ -33,13 +33,13 @@ router.post('/login',async(req,res)=>{
   }
   try{
     const user = await pg.query(query)
-    const userExistent = user.rows[0]
+    const userExistent = user.rows[0].numero_celular
     if(user.rows.length == 0){
       res.json({msg:'No existe el usuario'})
     }else{
       if(password == user.rows[0].password){
         const token = jwt.sign({ userExistent }, 'my_secret_key')
-        console.log(token);
+        //console.log('user '+userExistent);
         res.json({
           token
         })
