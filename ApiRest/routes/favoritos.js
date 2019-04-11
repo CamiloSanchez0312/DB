@@ -47,7 +47,7 @@ router.post('/create', async(req,res) => {
   try {
     await pg.query(query)
     res.status(200).json({
-      msg:'Favorito actualizado'
+      msg:'Favorito Creado'
     })
   } catch (e) {
     res.sendStatus(400)
@@ -55,16 +55,16 @@ router.post('/create', async(req,res) => {
 })
 //modificar un favorito ::::: falta buscar la forma de poder modificar tambien la ubicacion
 router.post('/update',async(req,res) => {
-  const{numero_celular,nombre,lat,lon} = req.body
-  if(numero_celular == "" || nombre == "" || lat == "" || lon == ""){
+  const{numero_celular,newNombre,id} = req.body
+  if(numero_celular == "" || newNombre == "" || id == ""){
     res.status(400).json({
       msg:'Hay algun campo vacio'
     })
     return
   }
   const query = {
-    text:'update favorito set nombre=$2  where numero_celular=$1',
-    values:[numero_celular,nombre]
+    text:'update favorito set nombre=$2  where numero_celular=$1 and num_favorito=$3',
+    values:[numero_celular,newNombre,id]
   }
   try {
       await pg.query(query)
