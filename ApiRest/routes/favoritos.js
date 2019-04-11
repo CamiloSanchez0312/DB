@@ -53,7 +53,7 @@ router.post('/create', async(req,res) => {
     res.sendStatus(400)
   }
 })
-//modificar un favorito ::::: falta buscar la forma de poder modificar tambien la ubicacion
+//modificar un favorito
 router.post('/update',async(req,res) => {
   const{numero_celular,newNombre,id} = req.body
   if(numero_celular == "" || newNombre == "" || id == ""){
@@ -71,6 +71,22 @@ router.post('/update',async(req,res) => {
       res.status(200).json({
         msg:'Favorito actualizado'
       })
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(400)
+  }
+})
+
+router.delete('/delete/:phone/:idFav',async(req,res) => {
+  const query = {
+    text:'DELETE FROM favorito WHERE numero_celular=$1 AND num_favorito=$2',
+    values:[req.params.phone,req.params.idFav]
+  }
+  try {
+    await pg.query(query)
+    res.status(200).json({
+      msg:'Favorito Eliminado'
+    })
   } catch (e) {
     console.log(e);
     res.sendStatus(400)
