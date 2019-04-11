@@ -34,6 +34,7 @@ router.get('/:phone', async(req,res) => {
 //crear un lugar favorito
 router.post('/create', async(req,res) => {
   const{numero_celular,nombre,lat,lon} = req.body
+  console.log(numero_celular+' '+nombre+' '+lat+' '+lon);
   if(numero_celular == "" || nombre == "" || lat == "" || lon == ""){
     res.status(400).json({
       msg:'Hay algun campo vacio'
@@ -51,6 +52,7 @@ router.post('/create', async(req,res) => {
     })
   } catch (e) {
     res.sendStatus(400)
+    console.log(e);
   }
 })
 //modificar un favorito

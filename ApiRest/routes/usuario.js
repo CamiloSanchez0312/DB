@@ -22,7 +22,6 @@ router.post('/login',async(req,res)=>{
     })
     return
   }
-  console.log('isNan '+isNaN(numero_celular))
   if(isNaN(numero_celular)){
     res.json({msg:'Numero celular debe ser numerico'})
     return
@@ -33,11 +32,12 @@ router.post('/login',async(req,res)=>{
   }
   try{
     const user = await pg.query(query)
-    const userExistent = user.rows[0].numero_celular
     if(user.rows.length == 0){
       res.json({msg:'No existe el usuario'})
+      return
     }else{
       if(password == user.rows[0].password){
+        const userExistent = user.rows[0].numero_celular
         const token = jwt.sign({ userExistent }, 'my_secret_key')
         //console.log('user '+userExistent);
         res.json({

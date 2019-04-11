@@ -46,8 +46,8 @@ CREATE TABLE Usuario(
 
 CREATE TABLE Servicio(
   nro_servicio serial,
-  numero_celular_cond int,
-  numero_celular_user int,
+  numero_celular_cond bigint,
+  numero_celular_user bigint,
   calificacion_servicio float,
   PRIMARY KEY (nro_servicio),
   FOREIGN KEY (numero_celular_cond) REFERENCES Conductor (numero_celular),
@@ -57,7 +57,7 @@ SELECT addgeometrycolumn('servicio','coordenada_inicio',3115,'POINT',2);
 SELECT addgeometrycolumn('servicio','coordenada_destino',3115,'POINT',2);
 
 CREATE TABLE Favorito(
-  numero_celular int,
+  numero_celular bigint,
   num_favorito serial,
   nombre varchar(20) not null,
   PRIMARY KEY (numero_celular,num_favorito),
