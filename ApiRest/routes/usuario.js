@@ -84,4 +84,25 @@ router.post('/signup',async(req,res) => {
           })
 })
 
+//modificarUsuario
+router.put('/',async(req,res)=>{
+  const {numero_celular,nombre,direccion,num_tarjetacredito} = req.body
+  if(numero_celular == "" || nombre == "" || direccion == "" || num_tarjetacredito == "" ){
+    res.json({msg:"Digite todos los campos"})
+    return
+  }
+  const myquery = {
+    text:'update usuario set nombre = $2,  direccion = $3,  num_tarjetacredito = $4 where numero_celular = $1',
+    values:[numero_celular,nombre,direccion,num_tarjetacredito]
+  }
+  pg.query(myquery)
+          .then(dbres => {
+            res.status(200).json({msg:'Usuario actualizado exitosamente'})
+          })
+          .catch(err => {
+            console.log(err)
+            res.status(404).json({msg:err.detail})
+          })
+})
+
 module.exports = router;

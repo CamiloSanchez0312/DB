@@ -32,7 +32,7 @@ router.get('/:phone', async(req,res) => {
 })
 
 //crear un lugar favorito
-router.post('/create', async(req,res) => {
+router.post('/', async(req,res) => {
   const{numero_celular,nombre,lat,lon} = req.body
   console.log(numero_celular+' '+nombre+' '+lat+' '+lon);
   if(numero_celular == "" || nombre == "" || lat == "" || lon == ""){
@@ -56,7 +56,7 @@ router.post('/create', async(req,res) => {
   }
 })
 //modificar un favorito
-router.post('/update',async(req,res) => {
+router.put('/',async(req,res) => {
   const{numero_celular,newNombre,id} = req.body
   if(numero_celular == "" || newNombre == "" || id == ""){
     res.status(400).json({
@@ -79,7 +79,7 @@ router.post('/update',async(req,res) => {
   }
 })
 
-router.delete('/delete/:phone/:idFav',async(req,res) => {
+router.delete('/:phone/:idFav',async(req,res) => {
   const query = {
     text:'DELETE FROM favorito WHERE numero_celular=$1 AND num_favorito=$2',
     values:[req.params.phone,req.params.idFav]
