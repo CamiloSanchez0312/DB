@@ -4,10 +4,10 @@ const pg = require('../db/database.js');
 
 //buscar taxis mas cercano disponible
 router.post('/',async(req,res) => {
-  const {lat,lng} = req.body
+  const {latOr,lngOr,latDes,lngDes} = req.body
   const query = {
-    text:'SELECT * FROM viaje($1,$2) NATURAL JOIN vehiculo',
-    values:[lat,lng]
+    text:'SELECT * FROM viaje($1,$2,$3,$4) NATURAL JOIN vehiculo',
+    values:[latOr,lngOr,latDes,lngOr]
   }
   try{
     const respuesta = await pg.query(query)
