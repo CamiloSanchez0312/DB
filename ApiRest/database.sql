@@ -85,5 +85,17 @@ INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (318754,'Casa',st
 INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (312467,'La topa',st_geomfromtext('POINT(3.4400 -76.4962)',3115));
 
 --VISTAS
+--vistaConductores: Posicion, nombre y celular de los conductores que estan disponibles para desplegarlos en
+--el mapa de los clientes
 DROP VIEW IF EXISTS vistaConductores;
 CREATE VIEW vistaConductores as SELECT numero_celular,nombre,calificacion_conductor,(select ST_AsGeoJSON(coordenadas)::json) as coor FROM Conductor where estado='true';
+
+--TRIGGERS
+CREATE OR REPLACE FUNCTION viaje(float,float) RETURNS table(nom varchar,num bigint,dis float) AS $$
+  DECLARE
+    lat ALIAS FOR $1;
+    lng ALIAS FOR $2;
+  BEGIN
+    return query SELECT nombre, numero_celular, ST_Distance(ST_SetSRID(ST_MakePoint(lat, lng), 3115), coordenadas) AS dists from (select * from conductor where estado=true) as cond ORDER BY dists LIMIT 1;
+  END;
+$$ LANGUAGE plpgsql VOLATILE;
