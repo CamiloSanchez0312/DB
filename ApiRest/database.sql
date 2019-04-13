@@ -85,5 +85,33 @@ INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (318754,'Casa',st
 INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (312467,'La topa',st_geomfromtext('POINT(3.4400 -76.4962)',3115));
 
 --VISTAS
+--vistaConductores: Posicion, nombre y celular de los conductores que estan disponibles para desplegarlos en
+--el mapa de los clientes
 DROP VIEW IF EXISTS vistaConductores;
 CREATE VIEW vistaConductores as SELECT numero_celular,nombre,calificacion_conductor,(select ST_AsGeoJSON(coordenadas)::json) as coor FROM Conductor where estado='true';
+
+--TRIGGERS
+--Busca el taxi mas cercano a la ubicacion del lugar de inicio del viaje
+CREATE OR REPLACE FUNCTION viaje(float,float,float,float) RETURNS table(nom varchar,num bigint,dis float,disViaje float) AS $$
+  DECLARE
+    latOr ALIAS FOR $1;
+    lngOr ALIAS FOR $2;
+    latDes ALIAS FOR $3;
+    lngDes ALIAS FOR $4;
+  BEGIN
+    return query SELECT nombre,numero_celular,111.195*ST_Distance(coordenadas,ST_SetSRID(ST_MakePoint(latOr, lngOr), 3115)) AS distancia,calculaDistanciaViaje(latOr,lngOr,latDes,lngDes) as distanciaViaje
+    FROM conductor WHERE estado=true ORDER BY distancia LIMIT 1;
+  END;
+$$ LANGUAGE plpgsql VOLATILE;
+--https://stackoverflow.com/questions/46926283/convert-st-distance-result-to-kilometers-or-meters/46926842 => convertir a metros
+--
+CREATE OR REPLACE FUNCTION calculaDistanciaViaje(float,float,float,float) RETURNS float AS $$
+  DECLARE
+    latOr ALIAS FOR $1;
+    lnnOR ALIAS FOR $2;
+    latDes ALIAS FOR $3;
+    lngDes ALIAS FOR $4;
+  BEGIN
+    return ST_DISTANCE(ST_SetSRID(ST_MakePoint($1, $2), 3115),ST_SetSRID(ST_MakePoint($3, $4), 3115))*111.195;
+  END;
+$$ LANGUAGE plpgsql;

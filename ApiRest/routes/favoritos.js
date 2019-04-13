@@ -13,7 +13,7 @@ router.get('/',async(req,res) =>{
     res.sendStatus(400)
   }
 })
-
+//CRUD LISTO :D
 //obtener los favoritos de un usuario especifico
 router.get('/:phone', async(req,res) => {
   const numero_celular = req.params.phone
@@ -34,7 +34,7 @@ router.get('/:phone', async(req,res) => {
 //crear un lugar favorito
 router.post('/', async(req,res) => {
   const{numero_celular,nombre,lat,lon} = req.body
-  console.log(numero_celular+' '+nombre+' '+lat+' '+lon);
+  //console.log(numero_celular+' '+nombre+' '+lat+' '+lon);
   if(numero_celular == "" || nombre == "" || lat == "" || lon == ""){
     res.status(400).json({
       msg:'Hay algun campo vacio'
