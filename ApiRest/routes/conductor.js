@@ -67,7 +67,7 @@ router.post('/signup',(req,res) => {
             res.status(200).json({mensaje:'Conductor almacenado exitosamente'})
           })
           .catch(err => {
-            res.status(404).json({error:err.detail})
+            res.status(404).json({msg:err.detail})
           })
 })
 

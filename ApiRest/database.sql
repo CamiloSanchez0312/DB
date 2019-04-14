@@ -92,7 +92,7 @@ INSERT INTO Favorito(numero_celular,nombre,coordenadas) VALUES (312467,'La topa'
 DROP VIEW IF EXISTS vistaConductores;
 CREATE VIEW vistaConductores as SELECT numero_celular,nombre,calificacion_conductor,(select ST_AsGeoJSON(coordenadas)::json) as coor FROM Conductor where estado='true';
 
---TRIGGERS
+--Funciones almacenadas
 --Busca el taxi mas cercano a la ubicacion del lugar de inicio del viaje
 CREATE OR REPLACE FUNCTION viaje(float,float) RETURNS table(nom varchar,num bigint,dis float) AS $$
   DECLARE
@@ -106,7 +106,7 @@ CREATE OR REPLACE FUNCTION viaje(float,float) RETURNS table(nom varchar,num bigi
   END;
 $$ LANGUAGE plpgsql VOLATILE;
 --https://stackoverflow.com/questions/46926283/convert-st-distance-result-to-kilometers-or-meters/46926842 => convertir a metros
---
+--calcula la distancia de un punto a otro
 CREATE OR REPLACE FUNCTION calculaDistanciaViaje(float,float,float,float) RETURNS float AS $$
   DECLARE
     latOr ALIAS FOR $1;
@@ -117,3 +117,11 @@ CREATE OR REPLACE FUNCTION calculaDistanciaViaje(float,float,float,float) RETURN
     return ST_DISTANCE(ST_SetSRID(ST_MakePoint(latOr, lngOR), 3115),ST_SetSRID(ST_MakePoint(latOr, lngDes), 3115));
   END;
 $$ LANGUAGE plpgsql;
+--calcula la calificacion total de un conductor
+CREATE OR REPLACE FUNCTION calculaCalificacion(bigint) RETURNS float AS $$
+  DECLARE
+    num_cel_cond ALIAS FOR $1;
+  BEGIN
+    return SELECT CAST (AVG(calificacion_servicio) AS FLOAT) as calificacion FROM servicio WHERE numero_celular_cond=num_cel_cond;
+  END;
+$$ LANGUAGE plpgsql VOLATILE;
