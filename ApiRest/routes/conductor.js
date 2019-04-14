@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 //onst router = require('express-promise-router')()
 const pg = require('../db/database.js');
+const jwt = require('jsonwebtoken');
 
 router.get('/',async (req,res)=>{
   const driver = await pg.query('SELECT * FROM Conductor')
@@ -25,7 +26,7 @@ router.post('/login',async(req,res)=>{
   try{
     const driver = await pg.query(query)
     const driverExistent = driver.rows[0]
-    if(user.rows.length == 0){
+    if(driver.rows.length == 0){
       res.json({msg:'No existe el usuario'})
     }else{
       if(password == driver.rows[0].password){
@@ -51,14 +52,15 @@ router.post('/login',async(req,res)=>{
 
 //Registrar conductores
 router.post('/signup',(req,res) => {
-  const {numero_celular,nombre,direccion,num_tarjetacredito,password} = req.body
-  if(numero_celular == null || nombre == null || direccion == null || num_tarjetacredito == null || password == null){
+  const {numero_celular,nombre,num_tarjetacredito,password} = req.body
+  console.log(req.body);
+  if(numero_celular == null || nombre == null || num_tarjetacredito == null || password == null){
     res.status(404).json({error:"Digite todos los campos"})
     return
   }
   const myquery = {
-    text:'insert into conductor(numero_celular,nombre,direccion,num_tarjetacredito,password) values ($1,$2,$3,$4,$5)',
-    values:[numero_celular,nombre,direccion,num_tarjetacredito,password]
+    text:'insert into conductor(numero_celular,nombre,num_tarjetacredito,password) values ($1,$2,$3,$4)',
+    values:[numero_celular,nombre,num_tarjetacredito,password]
   }
   pg.query(myquery)
           .then(dbres => {

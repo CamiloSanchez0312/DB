@@ -5,12 +5,16 @@ const pg = require('../db/database.js');
 //pedir los datos del perfil
 router.get('/:phone',async (req,res) =>{
   const num_celular = req.params.phone
+  console.log(
+    num_celular
+  );
   const query = {
     text:'select numero_celular,nombre,direccion,num_tarjetacredito FROM usuario where numero_celular=$1',
     values:[num_celular]
   }
   try {
     const user = await pg.query(query)
+    console.log(user.rows);
     res.status(200).json(user.rows[0])
   } catch (e) {
     console.log(e);
