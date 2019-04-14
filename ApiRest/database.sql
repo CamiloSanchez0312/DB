@@ -49,6 +49,8 @@ CREATE TABLE Servicio(
   numero_celular_cond bigint,
   numero_celular_user bigint,
   calificacion_servicio float,
+  estado boolean,
+  precio float,
   PRIMARY KEY (nro_servicio),
   FOREIGN KEY (numero_celular_cond) REFERENCES Conductor (numero_celular),
   FOREIGN KEY (numero_celular_user) REFERENCES Usuario (numero_celular)
@@ -92,14 +94,14 @@ CREATE VIEW vistaConductores as SELECT numero_celular,nombre,calificacion_conduc
 
 --TRIGGERS
 --Busca el taxi mas cercano a la ubicacion del lugar de inicio del viaje
-CREATE OR REPLACE FUNCTION viaje(float,float,float,float) RETURNS table(nom varchar,num bigint,dis float,disViaje float) AS $$
+CREATE OR REPLACE FUNCTION viaje(float,float) RETURNS table(nom varchar,num bigint,dis float) AS $$
   DECLARE
     latOr ALIAS FOR $1;
     lngOr ALIAS FOR $2;
     latDes ALIAS FOR $3;
     lngDes ALIAS FOR $4;
   BEGIN
-    return query SELECT nombre,numero_celular,111.195*ST_Distance(coordenadas,ST_SetSRID(ST_MakePoint(latOr, lngOr), 3115)) AS distancia,calculaDistanciaViaje(latOr,lngOr,latDes,lngDes) as distanciaViaje
+    return query SELECT nombre,numero_celular,111.195*ST_Distance(coordenadas,ST_SetSRID(ST_MakePoint(latOr, lngOr), 3115)) AS distancia
     FROM conductor WHERE estado=true ORDER BY distancia LIMIT 1;
   END;
 $$ LANGUAGE plpgsql VOLATILE;
@@ -108,10 +110,10 @@ $$ LANGUAGE plpgsql VOLATILE;
 CREATE OR REPLACE FUNCTION calculaDistanciaViaje(float,float,float,float) RETURNS float AS $$
   DECLARE
     latOr ALIAS FOR $1;
-    lnnOR ALIAS FOR $2;
+    lngOR ALIAS FOR $2;
     latDes ALIAS FOR $3;
     lngDes ALIAS FOR $4;
   BEGIN
-    return ST_DISTANCE(ST_SetSRID(ST_MakePoint($1, $2), 3115),ST_SetSRID(ST_MakePoint($3, $4), 3115))*111.195;
+    return ST_DISTANCE(ST_SetSRID(ST_MakePoint(latOr, lngOR), 3115),ST_SetSRID(ST_MakePoint(latOr, lngDes), 3115));
   END;
 $$ LANGUAGE plpgsql;
