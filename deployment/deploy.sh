@@ -6,6 +6,6 @@ echo "intantiating .sql"
 docker cp database.sql postgis:/database.sql
 docker exec postgis su - postgres -c "psql taxi -f ${SQLDIR}/database.sql" || true
 echo "iniciando el ApiRestFull api"
-docker run --rm -it --link=postgis:database --name api santiagorp7/apirest
+docker run --rm -it -d --link=postgis:database --name api santiagorp7/apirest
 echo "iniciando el servidor frontend" 
-docker run --rm -it --link=api:apirest --name frontend santiagorp7/front
+docker run --rm -it -d --link=api:apirest --name frontend santiagorp7/front
