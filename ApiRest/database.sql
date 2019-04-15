@@ -65,7 +65,7 @@ CREATE TABLE Favorito(
   num_favorito serial,
   nombre varchar(20) not null,
   PRIMARY KEY (numero_celular,num_favorito),
-  FOREIGN KEY (numero_celular) REFERENCES Usuario (numero_celular) ON DELETE CASCADE
+  FOREIGN KEY (numero_celular) REFERENCES Usuario (numero_celular) ON DELETE CASCADE ON UPDATE CASCADE
 );
 SELECT addgeometrycolumn('favorito','coordenadas',3115,'POINT',2) ;
 
