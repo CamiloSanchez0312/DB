@@ -3,13 +3,13 @@ Aqui Va consignado como correr el proyecto
 
 # Routes
 <ul><li>  y aqui las rutas de peticones y sus tipos </li></ul>
-# Herramientas Tecnologicas Usadas:
+<h1> Herramientas Tecnologicas Usadas: </h1>
 <ul> 
-  <li> Postgresql</li>
-  <li> Docker</li>
-  <li> Nodejs</li>
-  <li> Vuejs(framework de nodejs y complementos)</li>
-  <li> Expressjs(api)</li>
+  <li> <a href="https://www.postgresql.org/">Postgresql</a></li>
+  <li> <a href="https://www.docker.com/">Docker</a></li>
+  <li> <a href="https://nodejs.org/en/">Nodejs</a> </li>
+  <li> <a href="https://vuejs.org">Vuejs</a>(framework de nodejs y complementos)</li>
+  <li> <a href="https://expressjs.com/es/">Expressjs</a>(api)</li>
 </ul>
 
 # Despliegue
