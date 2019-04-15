@@ -30,7 +30,7 @@ CREATE TABLE Conductor(
   matricula varchar(6),
   password varchar(20),
   PRIMARY KEY (numero_celular),
-  FOREIGN KEY (matricula) REFERENCES Vehiculo (matricula)
+  FOREIGN KEY (matricula) REFERENCES Vehiculo (matricula) ON UPDATE CASCADE
 );
 CREATE INDEX celular_driver_index ON Conductor USING HASH (numero_celular);
 SELECT addgeometrycolumn('conductor','coordenadas',3115,'POINT',2);
@@ -54,8 +54,8 @@ CREATE TABLE Servicio(
   estado boolean,
   precio float,
   PRIMARY KEY (nro_servicio),
-  FOREIGN KEY (numero_celular_cond) REFERENCES Conductor (numero_celular),
-  FOREIGN KEY (numero_celular_user) REFERENCES Usuario (numero_celular)
+  FOREIGN KEY (numero_celular_cond) REFERENCES Conductor (numero_celular) ON UPDATE CASCADE ,
+  FOREIGN KEY (numero_celular_user) REFERENCES Usuario (numero_celular) ON UPDATE CASCADE
 );
 SELECT addgeometrycolumn('servicio','coordenada_inicio',3115,'POINT',2);
 SELECT addgeometrycolumn('servicio','coordenada_destino',3115,'POINT',2);
@@ -65,7 +65,7 @@ CREATE TABLE Favorito(
   num_favorito serial,
   nombre varchar(20) not null,
   PRIMARY KEY (numero_celular,num_favorito),
-  FOREIGN KEY (numero_celular) REFERENCES Usuario (numero_celular)
+  FOREIGN KEY (numero_celular) REFERENCES Usuario (numero_celular) ON DELETE CASCADE
 );
 SELECT addgeometrycolumn('favorito','coordenadas',3115,'POINT',2) ;
 
