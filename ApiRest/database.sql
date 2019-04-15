@@ -32,6 +32,7 @@ CREATE TABLE Conductor(
   PRIMARY KEY (numero_celular),
   FOREIGN KEY (matricula) REFERENCES Vehiculo (matricula)
 );
+CREATE INDEX celular_driver_index ON Conductor USING HASH (numero_celular);
 SELECT addgeometrycolumn('conductor','coordenadas',3115,'POINT',2);
 
 CREATE TABLE Usuario(
@@ -42,6 +43,7 @@ CREATE TABLE Usuario(
   password varchar(20),
   PRIMARY KEY (numero_celular)
 );
+CREATE INDEX celular_user_index ON Usuario USING HASH (numero_celular);
 --SELECT addgeometrycolumn('usuario','coordenadas',3115,'POINT',2);
 
 CREATE TABLE Servicio(
