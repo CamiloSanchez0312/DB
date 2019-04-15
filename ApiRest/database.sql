@@ -44,7 +44,7 @@ CREATE TABLE Usuario(
   PRIMARY KEY (numero_celular)
 );
 CREATE INDEX celular_user_index ON Usuario USING HASH (numero_celular);
---SELECT addgeometrycolumn('usuario','coordenadas',3115,'POINT',2);
+
 
 CREATE TABLE Servicio(
   nro_servicio serial,
@@ -54,11 +54,13 @@ CREATE TABLE Servicio(
   estado boolean,
   precio float,
   PRIMARY KEY (nro_servicio),
-  FOREIGN KEY (numero_celular_cond) REFERENCES Conductor (numero_celular) ON UPDATE CASCADE ,
-  FOREIGN KEY (numero_celular_user) REFERENCES Usuario (numero_celular) ON UPDATE CASCADE
+  FOREIGN KEY (numero_celular_cond) REFERENCES Conductor (numero_celular) ON DELETE SET DEFAULT ON UPDATE CASCADE ,
+  FOREIGN KEY (numero_celular_user) REFERENCES Usuario (numero_celular) ON DELETE SET DEFAULT ON UPDATE CASCADE
 );
 SELECT addgeometrycolumn('servicio','coordenada_inicio',3115,'POINT',2);
 SELECT addgeometrycolumn('servicio','coordenada_destino',3115,'POINT',2);
+ALTER TABLE Servicio ALTER COLUMN numero_celular_user SET DEFAULT 0;
+ALTER TABLE Servicio ALTER COLUMN numero_celular_cond SET DEFAULT 0;
 
 CREATE TABLE Favorito(
   numero_celular bigint,
@@ -74,12 +76,13 @@ INSERT INTO Vehiculo VALUES ('FKH123','Nissan','March',2018,'false',8759);
 INSERT INTO Vehiculo VALUES ('CFU635','Nissan','Pathfinder',2015,'true',5485);
 INSERT INTO Vehiculo VALUES ('KKK111','Ford','Fiesta',2018,'true',5448);
 
+INSERT INTO Conductor(numero_celular,nombre,num_tarjetacredito) VALUES (0,'Eliminado',0);
 INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (317872,'Camilo Sanchez','true',null,47554,'CFU635',st_geomfromtext('POINT(3.5182 -76.5373)',3115));
 INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (332157,'Santiago Rodriguez','false',null,145357,'FGE289',st_geomfromtext('POINT(3.4197 -76.4804)',3115));
 INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (316875,'Julian Salgado','false',null,357855,'FKH123',st_geomfromtext('POINT(3.4147 -76.5623)',3115));
 INSERT INTO Conductor(numero_celular,nombre,estado,calificacion_conductor,num_tarjetacredito,matricula,coordenadas) VALUES (315632,'Jesica Sanchez','true',null,5215,'KKK111',st_geomfromtext('POINT(3.4150 -76.4555)',3115));
 
-
+INSERT INTO Usuario(numero_celular,nombre,num_tarjetacredito) VALUES (0,'Eliminado',0);
 INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,password) VALUES (318569,'Karol Sanchez','Cra 12',45369,'1234');
 INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,password) VALUES (318754,'Jose Mosquera','Cra 25',96836,'1234');
 INSERT INTO Usuario(numero_celular,nombre,direccion,num_tarjetacredito,password) VALUES (312467,'Camilo Zamudio','Calle 12',77889,'1234');
@@ -124,6 +127,6 @@ CREATE OR REPLACE FUNCTION calculaCalificacion(bigint) RETURNS float AS $$
   DECLARE
     num_cel_cond ALIAS FOR $1;
   BEGIN
-    return SELECT CAST (AVG(calificacion_servicio) AS FLOAT) as calificacion FROM servicio WHERE numero_celular_cond=num_cel_cond;
+    return SELECT AVG(calificacion_servicio) as calificacion FROM servicio WHERE numero_celular_cond=num_cel_cond;
   END;
 $$ LANGUAGE plpgsql VOLATILE;
