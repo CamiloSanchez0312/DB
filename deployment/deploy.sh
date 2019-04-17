@@ -8,4 +8,4 @@ docker exec postgis su - postgres -c "psql taxi -f ${SQLDIR}/database.sql" || tr
 echo "iniciando el ApiRestFull api"
 docker run --rm -it -d --link=postgis:database --name api santiagorp7/apirest:1
 echo "iniciando el servidor frontend" 
-docker run --rm -it -d --link=api:apirest --name frontend santiagorp7/front
+docker run --rm -it -d --link=api:apirest --name frontend santiagorp7/front -p 8080:8080
