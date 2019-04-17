@@ -5,7 +5,7 @@ const pool = new Pool({
   host:'localhost',
   database:'taxi',
   password:'24880312',
-  port:5433
+  port:5432
 })
 console.log('Conectado a la base de datos')
 module.exports = pool;
